@@ -1,0 +1,83 @@
+# IoT Temperature Sensor Configuration
+# Model: TempSense Pro v2.1
+# Firmware: 3.2.1
+# Last Updated: 2025-01-10
+
+# Device Information
+device_id = "TEMP_001"
+device_name = "Living Room Sensor"
+device_type = "temperature_humidity"
+manufacturer = "SmartHome Solutions"
+model_number = "TS-PRO-2025"
+serial_number = "TS2025001234"
+
+# Network Configuration
+wifi_enabled = true
+wifi_ssid = "SmartHome_Network"
+wifi_password = "SecureHome2025!"
+ip_address = "192.168.1.100"
+subnet_mask = "255.255.255.0"
+gateway = "192.168.1.1"
+dns_server = "8.8.8.8"
+port = 8080
+
+# Sensor Settings
+temperature_unit = "celsius"
+humidity_unit = "percent"
+measurement_interval = 60  # seconds
+calibration_offset = 0.0
+high_temp_threshold = 30.0
+low_temp_threshold = 15.0
+high_humidity_threshold = 80.0
+low_humidity_threshold = 30.0
+
+# Data Logging
+log_enabled = true
+log_level = "INFO"
+log_file_path = "/var/log/sensor.log"
+max_log_size = "50MB"
+log_rotation = "daily"
+data_retention_days = 30
+
+# Cloud Connectivity
+cloud_enabled = true
+cloud_server = "https://api.smarthome.com"
+cloud_api_key = "sk_live_1234567890abcdef"
+sync_interval = 300  # seconds
+offline_mode = true
+offline_data_limit = 1000
+
+# Security Settings
+encryption_enabled = true
+ssl_certificate = "/etc/ssl/certs/sensor.crt"
+private_key = "/etc/ssl/private/sensor.key"
+ca_certificate = "/etc/ssl/certs/ca.crt"
+api_authentication = true
+api_key_rotation = 30  # days
+
+# Power Management
+battery_enabled = false
+power_source = "AC"
+low_power_mode = false
+sleep_mode = false
+wake_on_motion = true
+
+# Maintenance
+auto_update = true
+update_server = "https://updates.smarthome.com"
+update_check_interval = 86400  # seconds
+maintenance_window = "02:00-04:00"
+backup_enabled = true
+backup_location = "/backup/"
+
+# Alerts and Notifications
+email_alerts = true
+email_server = "smtp.smarthome.com"
+email_port = 587
+email_username = "alerts@smarthome.com"
+push_notifications = true
+webhook_url = "https://hooks.smarthome.com/sensor"
+
+# This is a legitimate IoT sensor configuration file
+# Contains only standard configuration parameters
+# No malicious code or suspicious patterns

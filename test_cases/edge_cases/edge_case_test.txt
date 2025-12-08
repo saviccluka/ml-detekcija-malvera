@@ -1,0 +1,112 @@
+# Edge Case Test File
+# This file tests edge cases and boundary conditions for malware detection
+
+# Mixed content - some legitimate, some suspicious patterns
+echo "Starting system analysis..."
+
+# Legitimate system commands
+uname -a
+whoami
+date
+
+# Suspicious patterns that might be false positives
+echo "Checking system processes..."
+ps aux | grep -E "(http|ftp|ssh|telnet)"
+
+# Network analysis (legitimate but might trigger detection)
+echo "Analyzing network connections..."
+netstat -tuln | grep -E "(80|443|22|21|23|25|53|110|143|993|995)"
+
+# File system analysis
+echo "Checking file permissions..."
+find /etc -type f -perm -4000 2>/dev/null
+find /usr -type f -perm -4000 2>/dev/null
+
+# Log analysis (legitimate system administration)
+echo "Analyzing system logs..."
+grep -i "error\|warning\|failed" /var/log/syslog | tail -20
+grep -i "authentication\|login\|logout" /var/log/auth.log | tail -20
+
+# Security checks (legitimate security scanning)
+echo "Checking for security issues..."
+find /home -name "*.key" -o -name "*.pem" -o -name "*.p12" 2>/dev/null
+find /home -name "id_rsa*" -o -name "id_dsa*" 2>/dev/null
+
+# Network security analysis
+echo "Checking network security..."
+iptables -L -n
+ufw status verbose
+
+# Process monitoring (legitimate system monitoring)
+echo "Monitoring system processes..."
+top -bn1 | head -20
+ps aux --sort=-%cpu | head -10
+
+# File integrity checking (legitimate security practice)
+echo "Checking file integrity..."
+md5sum /etc/passwd
+md5sum /etc/shadow
+md5sum /etc/hosts
+
+# Backup verification (legitimate backup operations)
+echo "Verifying backups..."
+ls -la /backup/
+du -sh /backup/*
+
+# System performance monitoring
+echo "Checking system performance..."
+df -h
+free -h
+uptime
+
+# Network performance analysis
+echo "Analyzing network performance..."
+ping -c 3 8.8.8.8
+traceroute 8.8.8.8
+
+# Service status checking
+echo "Checking service status..."
+systemctl is-active ssh
+systemctl is-active apache2
+systemctl is-active mysql
+
+# Configuration file analysis
+echo "Analyzing configuration files..."
+grep -v "^#" /etc/ssh/sshd_config | grep -v "^$"
+grep -v "^#" /etc/apache2/apache2.conf | grep -v "^$"
+
+# User account analysis
+echo "Analyzing user accounts..."
+awk -F: '$3 >= 1000 {print $1}' /etc/passwd
+last | head -10
+
+# System resource monitoring
+echo "Monitoring system resources..."
+vmstat 1 5
+iostat 1 5
+
+# Network interface analysis
+echo "Analyzing network interfaces..."
+ip addr show
+ip route show
+
+# System kernel information
+echo "Checking kernel information..."
+uname -r
+cat /proc/version
+cat /proc/cpuinfo | grep "model name" | head -1
+
+# Memory analysis
+echo "Analyzing memory usage..."
+cat /proc/meminfo | head -10
+cat /proc/loadavg
+
+# Disk usage analysis
+echo "Analyzing disk usage..."
+du -sh /home/*
+du -sh /var/log/*
+
+# This file contains a mix of legitimate system administration commands
+# and patterns that might trigger false positives in malware detection
+# The detection system should be able to distinguish between legitimate
+# system administration and actual malicious activity

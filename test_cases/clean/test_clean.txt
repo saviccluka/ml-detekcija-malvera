@@ -1,0 +1,38 @@
+# IoT Device Configuration File
+# Ovo je bezbedan konfiguracioni fajl za IoT uređaj
+
+# Osnovne postavke
+device_name = "sensor_001"
+device_type = "temperature_sensor"
+firmware_version = "1.2.3"
+manufacturer = "SafeTech Inc."
+
+# Mrežne postavke
+wifi_ssid = "HomeNetwork"
+wifi_password = "secure_password_123"
+server_url = "https://iot.safetech.com/api"
+port = 443
+
+# Sensor konfiguracija
+sensor_type = "DHT22"
+measurement_interval = 300  # sekundi
+temperature_unit = "celsius"
+humidity_unit = "percent"
+
+# Log postavke
+log_level = "INFO"
+log_file = "/var/log/sensor.log"
+max_log_size = "10MB"
+
+# Sigurnosne postavke
+encryption_enabled = true
+certificate_path = "/etc/ssl/certs/sensor.crt"
+private_key_path = "/etc/ssl/private/sensor.key"
+
+# Backup postavke
+backup_enabled = true
+backup_interval = 86400  # sekundi (24h)
+backup_location = "/backup/"
+
+# Ovaj fajl sadrži samo legitimne konfiguracione postavke
+# bez malicioznih elemenata ili sumnjivih pattern-a

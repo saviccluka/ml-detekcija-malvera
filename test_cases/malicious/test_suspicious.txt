@@ -1,0 +1,114 @@
+#!/bin/bash
+# Sumnjiv fajl za testiranje malware detekcije
+
+# Maliciozni kod simulacija
+echo "Starting malicious process..."
+
+# Sistemski pozivi koji mogu biti maliciozni
+CreateRemoteThread
+VirtualAllocEx
+WriteProcessMemory
+ShellExecute
+WinExec
+CreateProcess
+InternetOpenUrl
+URLDownloadToFile
+LoadLibrary
+GetProcAddress
+VirtualAlloc
+VirtualProtect
+ReadProcessMemory
+OpenProcess
+TerminateProcess
+
+# Sumnjivi string-ovi i putanje
+C:\Windows\System32\cmd.exe
+powershell.exe
+regsvr32.exe
+rundll32.exe
+wscript.exe
+cscript.exe
+C:\Windows\SysWOW64\rundll32.exe
+C:\Windows\System32\regsvr32.exe
+
+# Maliciozni URL-ovi
+http://malicious-site.com/download
+https://suspicious-domain.net/payload
+ftp://bad-server.org/backdoor
+http://evil-hacker.com/exploit
+https://malware-distribution.net/virus.exe
+
+# Dodatni maliciozni patterni
+admin
+password
+keylogger
+backdoor
+trojan
+virus
+worm
+rootkit
+exploit
+payload
+
+# Registry manipulacija
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+
+# Sumnjivi procesi
+svchost.exe
+winlogon.exe
+csrss.exe
+lsass.exe
+
+# Crypto i enkripcija
+crypt
+encrypt
+decrypt
+key
+hash
+md5
+sha1
+sha256
+
+# Network aktivnost
+socket
+bind
+listen
+connect
+send
+recv
+http://
+https://
+ftp://
+tcp://
+udp://
+
+# File operacije
+CreateFile
+WriteFile
+ReadFile
+DeleteFile
+MoveFile
+CopyFile
+
+# Memory operacije
+VirtualAlloc
+VirtualFree
+VirtualProtect
+ReadProcessMemory
+WriteProcessMemory
+
+# Process operacije
+CreateProcess
+OpenProcess
+TerminateProcess
+SuspendThread
+ResumeThread
+
+# Registry operacije
+RegOpenKey
+RegSetValue
+RegDeleteValue
+RegCreateKey
+
+# Ova kombinacija string-ova trebalo bi da aktivira malware detekciju.

